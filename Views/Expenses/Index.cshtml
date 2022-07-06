@@ -1,0 +1,76 @@
+﻿@model IEnumerable<ExpenseTracker.Models.ExpensesModel>
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<h2>Add Category</h2>
+<p>
+    <a asp-controller="UserCategoryMap" asp-action="Create">Add Category</a>
+</p>
+
+<h2>Search by date</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div class="form-group">
+                <input type="date" class="form-control" name="startdate"/>
+            </div>
+
+            <div class="form-group">
+                <input type="date" class="form-control" name="enddate"/>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" class="btn btn-outline-primary" name="Search"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<h2>Add Expense</h2>
+
+<p>
+    <a asp-action="Create">Enter new expense</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpenseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserCategoryMap)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpenseDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserCategoryMap.Category.CategoryName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ExpenseId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ExpenseId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ExpenseId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

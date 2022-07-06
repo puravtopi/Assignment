@@ -1,0 +1,86 @@
+﻿@model ExpenseTracker.Models.ExpensesModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>ExpensesModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserCategoryId" class="control-label"></label>
+                <select asp-for="UserCategoryId" class ="form-control" asp-items="ViewBag.UserCategoryId">
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label"></label>
+                <input id="Amount" name="Amount" class="form-control" placeholder="Enter Amount" onkeypress="return isNumberKey(event,this)" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExpenseDate" class="control-label"></label>
+                <input type="date" id="ExpenseDate" name="ExpenseDate" class="form-control" />
+                <span asp-validation-for="ExpenseDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+
+        $(function(){
+            var dtToday = new Date();
+    
+            var month = dtToday.getMonth() + 1;
+            var day = dtToday.getDate();
+            var year = dtToday.getFullYear();
+            if(month < 10)
+                month = '0' + month.toString();
+            if(day < 10)
+                day = '0' + day.toString();
+    
+            var maxDate = year + '-' + month + '-' + day;
+
+            $('#ExpenseDate').attr('max', maxDate);
+        });
+
+        function isNumberKey(evt, element) {
+          var charCode = (evt.which) ? evt.which : event.keyCode
+          if (charCode > 31 && (charCode < 48 || charCode > 57) && !(charCode == 46 || charCode == 8))
+            return false;
+          else {
+            var len = $(element).val().length;
+            var index = $(element).val().indexOf('.');
+            if (index > 0 && charCode == 46) {
+              return false;
+            }
+            if (index > 0) {
+              var CharAfterdot = (len + 1) - index;
+              if (CharAfterdot > 3) {
+                return false;
+              }
+            }
+
+          }
+          return true;
+        }
+
+    </script>
+
+}
